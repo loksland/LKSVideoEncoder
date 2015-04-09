@@ -8,9 +8,10 @@
 @import UIKit;
 
 typedef void(^LKSVideoEncoderCompletion)(NSURL *fileURL);
+typedef void(^LKSVideoEncoderProgress)(CGFloat progress);
 
 @interface LKSVideoEncoder : NSObject
 
--(id) encodeImages:(NSMutableArray*)images andSourceAudioPath:(NSString*)sourceAudioPath toOutputVideoPath:(NSString*)outputVideoPath width:(CGFloat)width height:(CGFloat)height fps:(NSUInteger)fps completion:(LKSVideoEncoderCompletion)completion;
+-(id) encodeImages:(NSMutableArray*)images andSourceAudioPath:(NSString*)sourceAudioPath toOutputVideoPath:(NSString*)outputVideoPath width:(CGFloat)width height:(CGFloat)height fps:(NSUInteger)fps progress:(LKSVideoEncoderProgress)progress completion:(LKSVideoEncoderCompletion)completion;
 
 @end

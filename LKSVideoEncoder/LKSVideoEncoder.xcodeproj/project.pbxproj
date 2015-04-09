@@ -142,6 +142,7 @@
 		3755318A1ACEB83300FF5B5B /* test-frame-00637.png in Resources */ = {isa = PBXBuildFile; fileRef = 3755310D1ACEB83300FF5B5B /* test-frame-00637.png */; };
 		3755318B1ACEB83300FF5B5B /* test-frame-00638.png in Resources */ = {isa = PBXBuildFile; fileRef = 3755310E1ACEB83300FF5B5B /* test-frame-00638.png */; };
 		375531901ACEBA2800FF5B5B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3755318F1ACEBA2800FF5B5B /* MediaPlayer.framework */; };
+		37A615EF1AD603D400197576 /* PathUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A615EE1AD603D400197576 /* PathUtils.m */; };
 		37E163A01AD24782006B6D13 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E1639F1AD24782006B6D13 /* AVFoundation.framework */; };
 		37E163A71AD24929006B6D13 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 37E163A51AD24929006B6D13 /* sample.m4a */; };
 /* End PBXBuildFile section */
@@ -300,6 +301,8 @@
 		3755310D1ACEB83300FF5B5B /* test-frame-00637.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-frame-00637.png"; sourceTree = "<group>"; };
 		3755310E1ACEB83300FF5B5B /* test-frame-00638.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-frame-00638.png"; sourceTree = "<group>"; };
 		3755318F1ACEBA2800FF5B5B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		37A615ED1AD603D400197576 /* PathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathUtils.h; sourceTree = "<group>"; };
+		37A615EE1AD603D400197576 /* PathUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathUtils.m; sourceTree = "<group>"; };
 		37E1639F1AD24782006B6D13 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		37E163A51AD24929006B6D13 /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -352,6 +355,8 @@
 				3755306D1ACEB36C00FF5B5B /* ViewController.m */,
 				3755308B1ACEB37D00FF5B5B /* LKSVideoEncoder.h */,
 				3755308C1ACEB37D00FF5B5B /* LKSVideoEncoder.m */,
+				37A615ED1AD603D400197576 /* PathUtils.h */,
+				37A615EE1AD603D400197576 /* PathUtils.m */,
 				37E163A51AD24929006B6D13 /* sample.m4a */,
 				375530911ACEB81600FF5B5B /* Frames */,
 				3755318C1ACEB84F00FF5B5B /* External */,
@@ -769,6 +774,7 @@
 				3755308D1ACEB37D00FF5B5B /* LKSVideoEncoder.m in Sources */,
 				375530901ACEB64500FF5B5B /* MBProgressHUD.m in Sources */,
 				3755306B1ACEB36C00FF5B5B /* AppDelegate.m in Sources */,
+				37A615EF1AD603D400197576 /* PathUtils.m in Sources */,
 				375530681ACEB36C00FF5B5B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

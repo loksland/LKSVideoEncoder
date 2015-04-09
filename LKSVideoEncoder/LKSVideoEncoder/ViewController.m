@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "LKSVideoEncoder.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "PathUtils.h"
 
 @interface ViewController ()
 
@@ -37,6 +38,17 @@
 
 - (IBAction)process:(id)sender {
     
+    // Loader
+    // ------
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.labelText = @"Encoding";
+    
+    
+    // Frames
+    // ------
+    
     NSUInteger startFrame = 514;
     NSUInteger endFrame = 638;
     CGFloat outputPerc = 1.0;
@@ -45,24 +57,24 @@
     NSMutableArray *framePics = [NSMutableArray arrayWithCapacity:_endFrame-startFrame];
     
     for (NSUInteger i = startFrame; i <= _endFrame; i++){
-        //[framePics addObject:[UIImage imageNamed:[NSString stringWithFormat:@"test-frame-%05lu.png", (unsigned long)i]]];
-        [framePics addObject:[NSString stringWithFormat:@"test-frame-%05lu.png", (unsigned long)i]];
+        [framePics addObject:[PathUtils bundlePath:[NSString stringWithFormat:@"test-frame-%05lu.png", (unsigned long)i]]];
     }
   
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Audio
+    // -----
     
-    NSString *sourceAudioPath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"m4a"];
-    NSLog(@"SOURCE AUDIO PATH %@", sourceAudioPath);
-    [self.myAudioPlayer stop];
+    NSString *sourceAudioPath = [PathUtils bundlePath:@"sample.m4a"];
     
-  
+    // Process
+    // -------
 
+    NSString *outputVideoPath = [PathUtils tmpPathWithComponents:@"_output.m4v", nil];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths firstObject];
-    NSString *outputVideoPath = [documentsDirectory stringByAppendingFormat:@"/_output.m4v"];
-    
-    self.videoEncoder = [[[LKSVideoEncoder alloc] init] encodeImages:framePics andSourceAudioPath:sourceAudioPath toOutputVideoPath:outputVideoPath width:640 height:480 fps:22 completion:^(NSURL *fileURL) {
+    self.videoEncoder = [[[LKSVideoEncoder alloc] init] encodeImages:framePics andSourceAudioPath:sourceAudioPath toOutputVideoPath:outputVideoPath width:640 height:480 fps:22 progress:^(CGFloat progress) {
+        
+        hud.progress = progress;
+        
+    } completion:^(NSURL *fileURL) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self viewVideoAtUrl:fileURL];

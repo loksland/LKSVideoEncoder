@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSString *outputVideoPath;
 
 @property (nonatomic, copy) LKSVideoEncoderCompletion completionBlock;
-
+@property (nonatomic, copy) LKSVideoEncoderProgress progressBlock;
 @end
 
 @implementation LKSVideoEncoder
@@ -37,7 +37,7 @@
     
 }
 
--(id) encodeImages:(NSMutableArray*)images andSourceAudioPath:(NSString*)sourceAudioPath toOutputVideoPath:(NSString*)outputVideoPath width:(CGFloat)width height:(CGFloat)height fps:(NSUInteger)fps completion:(LKSVideoEncoderCompletion)completion {
+-(id) encodeImages:(NSMutableArray*)images andSourceAudioPath:(NSString*)sourceAudioPath toOutputVideoPath:(NSString*)outputVideoPath width:(CGFloat)width height:(CGFloat)height fps:(NSUInteger)fps progress:(LKSVideoEncoderProgress)progress completion:(LKSVideoEncoderCompletion)completion {
     
     NSError *error;
     
@@ -47,6 +47,9 @@
     
     self.sourceAudioPath = sourceAudioPath;
     self.outputVideoPath = outputVideoPath;
+    
+    self.completionBlock = completion;
+    self.progressBlock = progress;
     
     // Configure
     // ---------
@@ -104,8 +107,6 @@
     // Ouput video
     // -----------
     
-    self.completionBlock = completion;
-    
     [self.assetWriter startWriting];
     [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
     
@@ -123,10 +124,15 @@
             }
             if ([self.writerInput isReadyForMoreMediaData]) {
                 
-                NSLog(@"%@", [images objectAtIndex:i]);
+                CGFloat progress = (i + 1)/(CGFloat)frameNumber;
                 
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[[UIImage imageNamed:[images objectAtIndex:i]] CGImage]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self onProgress:progress];
+                });
                 
+                //NSLog(@"%@", [images objectAtIndex:i]);
+                
+                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[[UIImage imageWithContentsOfFile:[images objectAtIndex:i]] CGImage]];
                 
                 if (sampleBuffer) {
                     if (i == 0) {
@@ -134,11 +140,7 @@
                     }else{
                         CMTime lastTime = CMTimeMake(i, self.frameTime.timescale);
                         CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
-                        
-                        
-                        
-                        
+                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];                        
                     }
                     CFRelease(sampleBuffer);
                     i++;
@@ -265,6 +267,14 @@
     CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
     
     return pxbuffer;
+    
+}
+
+-(void) onProgress: (CGFloat) progress {
+    
+    if (self.progressBlock != nil){
+        self.progressBlock(progress);
+    }
     
 }
 
