@@ -30,7 +30,6 @@
     if (self = [super init]) {
         
         
-        
     }
     
     return self;
@@ -130,20 +129,28 @@
                     [self onProgress:progress];
                 });
                 
-                //NSLog(@"%@", [images objectAtIndex:i]);
+                UIImage *img;
+                if ([[images objectAtIndex:i] isKindOfClass:[UIImage class]]){
+                    img = [images objectAtIndex:i];
+                } else if ([[images objectAtIndex:i] isKindOfClass:[NSString class]]) {
+                    img =[UIImage imageWithContentsOfFile: [images objectAtIndex:i]];
+                }
                 
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[[UIImage imageWithContentsOfFile:[images objectAtIndex:i]] CGImage]];
-                
-                if (sampleBuffer) {
-                    if (i == 0) {
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
-                    }else{
-                        CMTime lastTime = CMTimeMake(i, self.frameTime.timescale);
-                        CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];                        
+                if (img){
+                    
+                    CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
+                    
+                    if (sampleBuffer) {
+                        if (i == 0) {
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+                        }else{
+                            CMTime lastTime = CMTimeMake(i, self.frameTime.timescale); // numerator and denominator Eg. (1, 25) = 1/25
+                            CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];                        
+                        }
+                        CFRelease(sampleBuffer);
+                        i++;
                     }
-                    CFRelease(sampleBuffer);
-                    i++;
                 }
             }
         }

@@ -57,7 +57,15 @@
     NSMutableArray *framePics = [NSMutableArray arrayWithCapacity:_endFrame-startFrame];
     
     for (NSUInteger i = startFrame; i <= _endFrame; i++){
-        [framePics addObject:[PathUtils bundlePath:[NSString stringWithFormat:@"test-frame-%05lu.png", (unsigned long)i]]];
+        
+        NSString *imageName = [NSString stringWithFormat:@"test-frame-%05lu.png", (unsigned long)i];
+        if (i % 2 == 0) {
+            NSLog(@"Add path");
+            [framePics addObject:[PathUtils bundlePath:imageName]];
+        } else {
+            NSLog(@"Add UIImage");
+            [framePics addObject: [UIImage imageNamed:imageName]];
+        }
     }
   
     // Audio
