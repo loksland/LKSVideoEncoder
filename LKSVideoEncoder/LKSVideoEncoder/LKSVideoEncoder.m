@@ -29,7 +29,6 @@
     
     if (self = [super init]) {
         
-        
     }
     
     return self;
@@ -89,7 +88,10 @@
     self.videoSettings = @{AVVideoCodecKey : AVVideoCodecH264,
                            AVVideoWidthKey : [NSNumber numberWithInt:(int)width],
                            AVVideoHeightKey : [NSNumber numberWithInt:(int)height],
+                           AVVideoCompressionPropertiesKey: @{AVVideoProfileLevelKey: AVVideoProfileLevelH264Main31},
                            };
+    
+    
     self.writerInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
                                                       outputSettings:self.videoSettings];
     NSParameterAssert(self.writerInput);
