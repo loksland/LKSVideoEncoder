@@ -45,7 +45,6 @@
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Encoding";
     
-    
     // Frames
     // ------
     
@@ -93,14 +92,24 @@
 
 - (void)viewVideoAtUrl:(NSURL *)fileURL {
     
-    NSLog(@"%@", fileURL.path);
+    NSError* error;
+    NSDictionary *fileDictionary = [[NSFileManager defaultManager] attributesOfItemAtPath:fileURL.path error: &error];
+    NSNumber *size = [fileDictionary objectForKey:NSFileSize];
+    NSLog(@"(!) Movie filesize: %fMB", size.floatValue/1024/1024);
     
-    MPMoviePlayerViewController *playerController = [[MPMoviePlayerViewController alloc] initWithContentURL:fileURL];
-    [playerController.view setFrame:self.view.bounds];
-    [self presentMoviePlayerViewControllerAnimated:playerController];
-    [playerController.moviePlayer prepareToPlay];
-    [playerController.moviePlayer play];
-    [self.view addSubview:playerController.view];
+    UIWebView *webView=[[UIWebView alloc ]initWithFrame:CGRectMake(0,0, 640, 480)];
+    [self.view addSubview:webView];
+    NSURLRequest *reqUrl=[NSURLRequest requestWithURL:fileURL];
+    [webView loadRequest:reqUrl];
+    
+   
+    
+    //MPMoviePlayerViewController *playerController = [[MPMoviePlayerViewController alloc] initWithContentURL:fileURL];
+    //[playerController.view setFrame:self.view.bounds];
+    //[self presentMoviePlayerViewControllerAnimated:playerController];
+    //[playerController.moviePlayer prepareToPlay];
+    //[playerController.moviePlayer play];
+    //[self.view addSubview:playerController.view];
     
 }
 @end

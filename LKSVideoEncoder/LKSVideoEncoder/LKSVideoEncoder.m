@@ -88,7 +88,7 @@
     self.videoSettings = @{AVVideoCodecKey : AVVideoCodecH264,
                            AVVideoWidthKey : [NSNumber numberWithInt:(int)width],
                            AVVideoHeightKey : [NSNumber numberWithInt:(int)height],
-                           AVVideoCompressionPropertiesKey: @{AVVideoProfileLevelKey: AVVideoProfileLevelH264Main31},
+                           //AVVideoCompressionPropertiesKey: @{AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline31},//AVVideoProfileLevelH264Main31},
                            };
     
     
@@ -194,7 +194,7 @@
     CMTimeRange video_timeRange = CMTimeRangeMake(kCMTimeZero,videoAsset.duration);
     NSDictionary *settings =
     [NSDictionary dictionaryWithObjectsAndKeys:
-     [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
+     [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
      [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
      [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
      [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
