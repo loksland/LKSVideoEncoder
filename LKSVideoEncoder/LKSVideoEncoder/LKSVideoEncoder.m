@@ -88,7 +88,7 @@
     self.videoSettings = @{AVVideoCodecKey : AVVideoCodecH264,
                            AVVideoWidthKey : [NSNumber numberWithInt:(int)width],
                            AVVideoHeightKey : [NSNumber numberWithInt:(int)height],
-                           //AVVideoCompressionPropertiesKey: @{AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline31},//AVVideoProfileLevelH264Main31},
+                           AVVideoCompressionPropertiesKey: @{AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline31},//AVVideoProfileLevelH264Main31},
                            };
     
     
@@ -97,7 +97,7 @@
     NSParameterAssert(self.writerInput);
     NSParameterAssert([self.assetWriter canAddInput:self.writerInput]);
     
-    [self.assetWriter addInput:self.writerInput];
+    [self.assetWriter addInput:self.writerInput]; 
     
     NSDictionary *bufferAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithInt:kCVPixelFormatType_32ARGB], kCVPixelBufferPixelFormatTypeKey, nil];
